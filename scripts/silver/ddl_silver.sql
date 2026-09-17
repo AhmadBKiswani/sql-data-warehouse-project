@@ -1,3 +1,14 @@
+/*
+===========================================================================
+DDL Script: Create Silver Tables
+===========================================================================
+Script Purpose:
+This script creates tables in the 'silver' schema, dropping existing tables
+if they already exist.
+Run this script to re-define the DDL structure of 'bronze' Tables
+===========================================================================
+*/
+
 USE DataWarehouse;
 
 IF OBJECT_ID('silver.crm_cust_info' , 'U') IS NOT NULL  --To check if the table already exists if it exists we drop it then recreate it again 
