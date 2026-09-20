@@ -54,29 +54,20 @@ The semantic layer optimized for end-user reporting and BI dashboards (e.g., Pow
 
 ## 📂 Repository Structure
 
-```text
-sql-data-warehouse-project/
-├── datasets/
-│   ├── source_crm/             # Raw CRM CSV files
-│   └── source_erp/             # Raw ERP CSV files
-├── docs/                       # Architecture diagrams and markdown documentation
-│   ├── Architecture.drawio
-│   ├── Data Flow Diagram.drawio
-│   ├── Data Model.drawio
-│   ├── Integration Model.drawio
-│   ├── data_catalog.md
-│   └── naming_conventions.md
-├── scripts/                    # SQL scripts for data warehouse layers
-│   ├── init_database.sql       # Initial DB creation script
-│   ├── bronze/                 # DDL and ETL for Bronze layer
-│   ├── silver/                 # DDL and ETL for Silver layer
-│   └── gold/                   # DDL for Gold layer views
-├── tests/                      # Data quality check scripts
-│   ├── quality_checks_gold.sql
-│   └── quality_checks_silver.sql
-├── LICENSE
-└── README.md
-```
+- 📁 **`datasets/`** — Contains raw source `.csv` files and Gold data mart exports.
+  - 📂 `source_crm/` — Raw CRM data files.
+  - 📂 `source_erp/` — Raw ERP data files.
+- 📁 **`docs/`** — Architecture diagrams (`.drawio`) and markdown documentation.
+- 📁 **`scripts/`** — SQL scripts for data warehouse layers.
+  - 📄 `init_database.sql` — Initial DB creation script.
+  - 📂 `bronze/` — DDL and ETL scripts for the Bronze layer.
+  - 📂 `silver/` — DDL and ETL scripts for the Silver layer.
+  - 📂 `gold/` — DDL scripts for Gold layer views.
+- 📁 **`tests/`** — Data quality check scripts.
+  - 📄 `quality_checks_gold.sql`
+  - 📄 `quality_checks_silver.sql`
+- 📄 **`LICENSE`**
+- 📄 **`README.md`**
 
 ---
 
