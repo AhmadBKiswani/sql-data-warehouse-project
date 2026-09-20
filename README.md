@@ -129,4 +129,4 @@ EXEC silver.load_silver;
 ## 👨‍💻 Author
 **Ahmad Kiswani**
 * [GitHub](https://github.com/AhmadBKiswani)
-* [LinkedIn](https://www.linkedin.com/in/ahmadbkiswani)
+* [LinkedIn](https://www.linkedin.com/in/ahmad-kiswani-85a997382/)
