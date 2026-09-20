@@ -54,75 +54,75 @@ The semantic layer optimized for end-user reporting and BI dashboards (e.g., Pow
 
 ## 📂 Repository Structure
 
-The repository is organized into SQL scripts representing the DDL (Data Definition Language) and DML (Data Manipulation Language) for each architectural layer, alongside the source and output data files.
-
-* **Architecture Diagrams:** Contains the visual architecture layout, Data Flow Diagram, Integration Model, and Data Model mappings.
-* **Bronze Layer:** `DDL Bronze.sql`, `DML Bronze.sql`
-* **Silver Layer:** `ddl_silver.sql`, `proc_load_silver.sql`, and individual transformation scripts.
-* **Gold Layer:** `Dimension Customer.sql`, `Dimension Products.sql`, `Fact Sales.sql`
-* **Datasets:** Contains raw source `.csv` files and the finalized Gold data mart exports.
+```text
+sql-data-warehouse-project/
+├── datasets/
+│   ├── source_crm/             # Raw CRM CSV files
+│   └── source_erp/             # Raw ERP CSV files
+├── docs/                       # Architecture diagrams and markdown documentation
+│   ├── Architecture.drawio
+│   ├── Data Flow Diagram.drawio
+│   ├── Data Model.drawio
+│   ├── Integration Model.drawio
+│   ├── data_catalog.md
+│   └── naming_conventions.md
+├── scripts/                    # SQL scripts for data warehouse layers
+│   ├── init_database.sql       # Initial DB creation script
+│   ├── bronze/                 # DDL and ETL for Bronze layer
+│   ├── silver/                 # DDL and ETL for Silver layer
+│   └── gold/                   # DDL for Gold layer views
+├── tests/                      # Data quality check scripts
+│   ├── quality_checks_gold.sql
+│   └── quality_checks_silver.sql
+├── LICENSE
+└── README.md
+```
 
 ---
 
 ## 🚀 How to Run the Project
 
 **1. Clone the Repository**
-<br>
-
 ```bash
 git clone [https://github.com/AhmadBKiswani/sql-data-warehouse-project.git](https://github.com/AhmadBKiswani/sql-data-warehouse-project.git)
 ```
 
 **2. Setup Database & Schemas**
-<br>Open SQL Server Management Studio (SSMS) or Azure Data Studio. Create a new database and the required Medallion schemas:
-
-```sql
-CREATE DATABASE DataWarehouse;
-GO
-USE DataWarehouse;
-GO
-CREATE SCHEMA bronze;
-GO
-CREATE SCHEMA silver;
-GO
-CREATE SCHEMA gold;
-GO
-```
+Open SQL Server Management Studio (SSMS) or Azure Data Studio and run the initial setup script:
+* Execute `scripts/init_database.sql` to create the `DataWarehouse` database and Medallion schemas.
 
 **3. Build the Table Structures (DDL)**
-<br>Execute the table creation scripts to build the foundation for the raw and cleansed data layers:
-* Run `DDL Bronze.sql` to create the bronze tables.
-* Run `ddl_silver.sql` to create the silver tables.
+Execute the table creation scripts to build the foundation:
+* Run `scripts/bronze/ddl_bronze.sql`
+* Run `scripts/silver/ddl_silver.sql`
+* Run `scripts/gold/ddl_gold.sql`
 
 **4. Update File Paths for Data Ingestion**
-<br>SQL Server requires absolute local file paths to execute a `BULK INSERT`. 
-* Open `DML Bronze.sql`.
-* Find the `FROM` clauses (e.g., `'C:\Users\User\Desktop\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'`).
-* Replace the paths with the exact local path where you cloned this repository.
+SQL Server requires absolute local file paths to execute a `BULK INSERT`. 
+* Open `scripts/bronze/proc_load_bronze.sql`.
+* Find the `FROM` clauses (e.g., `'C:\...\datasets\source_crm\cust_info.csv'`).
+* Replace the paths with the exact local path where you cloned this repository on your machine.
 
 **5. Compile the Stored Procedures**
-<br>Execute the stored procedure scripts to compile them into the database. This does *not* run the data load; it simply saves the logic.
-* Run `DML Bronze.sql` to compile `bronze.load_bronze`.
-* Run `proc_load_silver.sql` to compile `silver.load_silver`.
+Execute the stored procedure scripts to compile them into the database. This does *not* run the data load; it simply saves the logic.
+* Run `scripts/bronze/proc_load_bronze.sql`
+* Run `scripts/silver/proc_load_silver.sql`
 
 **6. Execute the ETL Pipeline**
-<br>Run the following commands in a new query window to extract the CSV data, load it into the Bronze layer, and transform it into the Silver layer.
-
+Run the following commands in a new query window to extract the CSV data, load it into the Bronze layer, and transform it into the Silver layer.
 ```sql
 EXEC bronze.load_bronze;
 EXEC silver.load_silver;
 ```
-
 *(Note: Check the messages tab to view the batch execution times and ensure there were no errors).*
 
-**7. Generate the Gold Data Mart**
-<br>Execute the view creation scripts to build the Star Schema for reporting:
-* Run `Dimension Customer.sql`
-* Run `Dimension Products.sql`
-* Run `Fact Sales.sql`
+**7. Run Data Quality Checks**
+Ensure data integrity by running the testing scripts:
+* Execute `tests/quality_checks_silver.sql`
+* Execute `tests/quality_checks_gold.sql`
 
 **8. Connect & Analyze**
-<br>The Gold layer views are now fully populated and ready for analysis. Connect Power BI directly to the `DataWarehouse` database and import the `gold.dim_customers`, `gold.dim_products`, and `gold.fact_sales` views to begin building dashboards.
+The Gold layer views are now fully populated and ready for analysis. Connect Power BI directly to the `DataWarehouse` database and import the `gold.dim_customers`, `gold.dim_products`, and `gold.fact_sales` views to begin building dashboards.
 
 ---
 
